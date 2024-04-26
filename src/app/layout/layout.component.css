@@ -1,30 +1,55 @@
 .layout-container {
     display: flex;
-    height: 55px;
-  }
-  
-  .left-section {
-    flex: 1;
+    flex-direction: column;
+}
+
+.content {
     display: flex;
-    align-items: center;
-    padding-left: 16px; /* отступ слева */
-  }
-  
-  .right-section {
-    display: flex;
-    align-items: center;
-    padding-right: 16px; /* отступ справа */
-  }
-  
-  .content {
+}
+
+mat-toolbar {
     width: 100%;
+}
+
+.left-section {
     display: flex;
-    justify-content: space-between;
-  }
-  
-  mat-sidenav {
-    position: fixed;
-    bottom: 550px;
-  }
-  
-  
+    align-items: center;
+    margin-left: 10px;
+}
+
+.logo {
+    margin-left: 10px;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.theme-label:first-child {
+    margin-right: 10px;
+}
+
+.theme-label:last-child {
+    margin-left: 10px;
+}
+
+mat-drawer-container {
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+}
+
+mat-drawer {
+    flex-shrink: 0;
+    width: 210px;
+}
+
+mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex-grow: 1;
+}
