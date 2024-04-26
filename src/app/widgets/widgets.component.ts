@@ -11,13 +11,13 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'app-widgets',
   standalone: true,
   imports: [MatSlideToggleModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatBadgeModule, MatButtonModule, MatMenuModule, RouterModule],
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css']
+  templateUrl: './widgets.component.html',
+  styleUrls: ['./widgets.component.css']
 })
-export class LayoutComponent {
+export class WidgetsComponent {
   @ViewChild('drawer') sidenav!: MatDrawer;
   constructor() { }
 }
