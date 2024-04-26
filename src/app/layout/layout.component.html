@@ -1,1 +1,38 @@
-<p>layout works!</p>
+<div class="layout-container">
+    <!-- Боковое меню (sidenav) -->
+    <mat-sidenav #sidenav mode="side">
+      <!-- Содержимое бокового меню -->
+      <mat-nav-list>
+        <!-- Пункт "Home" -->
+        <mat-list-item>
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>home</mat-icon>
+          </button>
+          <span>Home</span>
+        </mat-list-item>
+        <!-- Пункт "Widgets" -->
+        <mat-list-item>
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>widgets</mat-icon>
+          </button>
+          <span>Widgets</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- Основное содержимое -->
+    <div class="content">
+      <div class="left-section">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Weather</span>
+      </div>
+      <div class="right-section">
+        <span class="theme-label">Dark</span>
+        <mat-slide-toggle></mat-slide-toggle>
+        <span class="theme-label">Light</span>
+      </div>
+    </div>
+  </div>
+  
