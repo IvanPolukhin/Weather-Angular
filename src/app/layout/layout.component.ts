@@ -8,12 +8,13 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatDrawer } from '@angular/material/sidenav';
+import { WeatherComponent } from '../weather/weather.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [MatSlideToggleModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatBadgeModule, MatButtonModule, MatMenuModule, RouterModule],
+  imports: [MatSlideToggleModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatBadgeModule, MatButtonModule, MatMenuModule,  WeatherComponent, RouterModule],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
