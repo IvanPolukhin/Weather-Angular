@@ -30,7 +30,7 @@ export class WeatherComponent implements OnInit {
 
         this.weatherService.getCurrentWeather(lat, lon).subscribe((data: any) => {
           this.currentCity = data.name;
-          this.currentTemperature = Math.round(this.convertKelvinToCelsius(data.main.temp));
+          this.currentTemperature = Math.round((data.main.temp));
           this.currentHumidity = data.main.humidity;
           this.currentWindSpeed = data.wind.speed;
           this.currentWeatherCondition = data.weather[0].description;
@@ -38,10 +38,4 @@ export class WeatherComponent implements OnInit {
       });
     }
   }
-
-
-  convertKelvinToCelsius(kelvin: number): number {
-    return kelvin - 273.15;
-  }
-
 }

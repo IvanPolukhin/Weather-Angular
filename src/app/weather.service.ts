@@ -12,7 +12,7 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   getCurrentWeather(lat: number, lon: number) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}`;
-    return this.http.get(url);
+    const apiurl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric`;
+    return this.http.get(apiurl);
   }
 }
