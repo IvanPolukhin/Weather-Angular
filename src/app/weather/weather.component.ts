@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../weather.service';
-import { HttpClientModule } from '@angular/common/http';
-import { PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { WeatherMappingService } from '../weather-mapping.service';
+import { WeatherApiService } from '../weather-api.service';
+import { WeatherModel } from '../weather.model';
+
 @Component({
   selector: 'app-weather',
   standalone: true,
@@ -11,31 +13,41 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './weather.component.css'
 })
 export class WeatherComponent implements OnInit {
-  currentCity: string = '';
-  currentTemperature: number = 0;
-  currentHumidity: number = 0;
-  currentWindSpeed: number = 0;
-  currentWeatherCondition: string = '';
+  currentWeather: WeatherModel = {
+    city: '',
+    currentTemperature: 0,
+    humidity: 0,
+    windSpeed: 0,
+    weatherCondition: ''
+  }
 
   constructor(
-    private weatherService: WeatherService,
+    private weatherApiService: WeatherApiService,
+    private weatherMappingService: WeatherMappingService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      navigator.geolocation.getCurrentPosition(position => {
+      this.fetchWeatherData();
+    }
+  }
+
+  async fetchWeatherData(): Promise<void> {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-
-        this.weatherService.getCurrentWeather(lat, lon).subscribe((data: any) => {
-          this.currentCity = data.name;
-          this.currentTemperature = Math.round((data.main.temp));
-          this.currentHumidity = data.main.humidity;
-          this.currentWindSpeed = data.wind.speed;
-          this.currentWeatherCondition = data.weather[0].description;
-        });
+        try {
+          const data = await this.weatherApiService.getCurrentWeather(lat, lon);
+          this.currentWeather = this.weatherMappingService.mapWeatherData(data);
+          console.log(this.currentWeather);
+        } catch (error) {
+          console.error('Error fetching weather data:', error);
+        }
       });
+    } else {
+      console.error('Geolocation is not supported or permission is denied.');
     }
   }
 }
