@@ -1,4 +1,4 @@
-export interface WeatherModel {
+export interface IWeatherModel {
     city: string;
     currentTemperature: number;
     humidity: number;
