@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
-import { WeatherModel } from '../weather.model';
+import { IWeatherModel } from '../weather.model';
 
 @Component({
   selector: 'app-weather',
@@ -13,7 +13,7 @@ import { WeatherModel } from '../weather.model';
   styleUrl: './weather.component.css'
 })
 export class WeatherComponent implements OnInit {
-  currentWeather: WeatherModel = {
+  currentWeather: IWeatherModel = {
     city: '',
     currentTemperature: 0,
     humidity: 0,
