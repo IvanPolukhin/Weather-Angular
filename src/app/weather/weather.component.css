@@ -52,6 +52,7 @@
 
 span {
     margin-right: 5px;
+    text-transform: uppercase;
 }
 
 .city {
@@ -65,8 +66,4 @@ span {
     width: 35px;
     border-top: 1px solid black;
     margin: 20px auto 0;
-}
-
-span {
-    text-transform: uppercase;
 }

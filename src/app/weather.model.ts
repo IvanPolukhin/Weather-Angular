@@ -1,8 +1,21 @@
 export interface IWeatherModel {
-    city: string;
-    currentTemperature: number;
+  city: string;
+  currentTemperature: number;
+  humidity: number;
+  windSpeed: number;
+  weatherCondition: string;
+}
+
+export interface IWeatherData {
+  name: string;
+  main: {
+    temp: number;
     humidity: number;
-    windSpeed: number;
-    weatherCondition: string;
-  }
-  
+  };
+  wind: {
+    speed: number;
+  };
+  weather: {
+    description: string;
+  }[];
+}

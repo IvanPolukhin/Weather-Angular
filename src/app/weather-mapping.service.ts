@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IWeatherData } from './weather.model';
+import { IWeatherModel } from './weather.model';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +9,7 @@ export class WeatherMappingService {
 
   constructor() { }
 
-  mapWeatherData(data: any): any {
+  mapWeatherData(data: IWeatherData): IWeatherModel {
     return {
       city: data.name,
       currentTemperature: Math.round(data.main.temp),
