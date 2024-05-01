@@ -82,9 +82,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.weatherApiService.getCurrentWeather(lat, lon).subscribe(
       (data: IWeatherData) => {
         this.updateCurrentWeather(data);
-      },
-      (error: any) => {
-        this.handleWeatherError(error);
       }
     );
   }
@@ -96,9 +93,5 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   private handleError(error: any): void {
     console.error('Error getting current position:', error);
-  }
-
-  private handleWeatherError(error: any): void {
-    console.error('Error fetching weather data:', error);
   }
 }
