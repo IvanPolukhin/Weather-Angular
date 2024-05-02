@@ -1,0 +1,20 @@
+<div class="current-weather">
+    <div class="weather-data">
+        <div class="temperature-and-info">
+            <div class="temperature">{{ currentWeather.currentTemperature }}°C</div>
+            <div class="condition">{{ currentWeather.weatherCondition }}</div>
+        </div>
+        <div class="humidity-and-wind">
+            <div class="humidity">
+                <span>Humidity</span>
+                <div class="humidity-value">{{ currentWeather.humidity }}%</div>
+            </div>
+            <div class="humidity-line"></div>
+            <div class="wind">
+                <span>Wind</span>
+                <div class="wind-value">{{ currentWeather.windSpeed }} km/h</div>
+            </div>
+        </div>
+    </div>
+    <div class="city">{{ currentWeather.city }}</div>
+</div>
