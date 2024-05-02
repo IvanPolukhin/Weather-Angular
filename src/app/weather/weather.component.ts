@@ -26,7 +26,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     windSpeed: 0,
     weatherCondition: ''
   };
-  private geolocationSubscription: Subscription | undefined;
+  geolocationSubscription: Subscription | undefined;
 
   constructor(
     private weatherApiService: WeatherApiService,
@@ -46,7 +46,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getGeolocation(): Subscription {
+  getGeolocation(): Subscription {
     return new Observable<IPosition>((observer) => {
       if ('geolocation' in navigator) {
         this.getCurrentPosition(observer);
@@ -60,7 +60,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getCurrentPosition(observer: Observer<IPosition>): void {
+  getCurrentPosition(observer: Observer<IPosition>): void {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         observer.next(position);
@@ -72,13 +72,13 @@ export class WeatherComponent implements OnInit, OnDestroy {
     );
   }
 
-  private handlePosition(position: IPosition): void {
+  handlePosition(position: IPosition): void {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     this.fetchWeather(lat, lon);
   }
 
-  private fetchWeather(lat: number, lon: number): void {
+  fetchWeather(lat: number, lon: number): void {
     this.weatherApiService.getCurrentWeather(lat, lon).subscribe(
       (data: IWeatherData) => {
         this.updateCurrentWeather(data);
@@ -86,12 +86,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateCurrentWeather(data: IWeatherData): void {
+  updateCurrentWeather(data: IWeatherData): void {
     this.currentWeather = this.weatherMappingService.mapWeatherData(data);
     console.log(this.currentWeather);
   }
 
-  private handleError(error: any): void {
+  handleError(error: any): void {
     console.error('Error getting current position:', error);
   }
 }
