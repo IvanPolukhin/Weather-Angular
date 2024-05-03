@@ -1,5 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { IWeatherModel } from '../weather.model';
@@ -10,11 +11,10 @@ import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
 import { Subscription, Observable, Observer } from 'rxjs';
 
-
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css'
 })
@@ -27,6 +27,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     weatherCondition: ''
   };
   geolocationSubscription: Subscription | undefined;
+  backgroundGradient: string = '';
 
   constructor(
     private weatherApiService: WeatherApiService,
@@ -89,6 +90,17 @@ export class WeatherComponent implements OnInit, OnDestroy {
   updateCurrentWeather(data: IWeatherData): void {
     this.currentWeather = this.weatherMappingService.mapWeatherData(data);
     console.log(this.currentWeather);
+
+    const currentTime = new Date().getHours();
+    if (currentTime >= 6 && currentTime < 12) {
+      this.backgroundGradient = 'linear-gradient(to bottom, #FFD700, #87CEEB)'; // Morning background
+    } else if (currentTime >= 12 && currentTime < 18) {
+      this.backgroundGradient = 'linear-gradient(to bottom, #87CEEB, #00FF7F)'; // Afternoon background
+    } else if (currentTime >= 18 && currentTime < 24) {
+      this.backgroundGradient = 'linear-gradient(to bottom, #FFA500, #FF4500)'; // Evening background
+    } else {
+      this.backgroundGradient = 'linear-gradient(to bottom, #191970, #000000)'; // Night background
+    }
   }
 
   handleError(error: any): void {
