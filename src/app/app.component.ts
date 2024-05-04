@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
-import { WidgetsComponent } from './widgets/widgets.component';
+import { WidgetDisplayComponent } from './widget-display/widget-display.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LayoutComponent, WidgetsComponent],
+  imports: [RouterOutlet, LayoutComponent, WidgetDisplayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
