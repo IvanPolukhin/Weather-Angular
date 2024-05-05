@@ -1,27 +1,34 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WidgetApiService } from '../widget-api.service';
+import { IWidgetData } from '../weather.model';
+import { WidgetComponent } from '../widget/widget.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-widget-display',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, WidgetComponent, FormsModule],
   templateUrl: './widget-display.component.html',
   styleUrl: './widget-display.component.css'
 })
 export class WidgetDisplayComponent {
-  widgets: any[] = [{}, {}, {}]; // Инициализируем массив тремя пустыми объектами
+  widgets: IWidgetData[] = [];
+  cityName: string = '';
 
-  // Метод для добавления нового виджета
+  constructor(private widgetApiService: WidgetApiService) { }
+
   addWidget(): void {
-    this.widgets.push({});
+    this.widgetApiService.getWeatherByCityName(this.cityName).subscribe((data: IWidgetData) => {
+      this.widgets.push(data);
+    });
   }
 
-  // Метод для удаления последнего виджета
   removeLast(): void {
     this.widgets.pop();
   }
 
-  // Метод для сброса виджетов
   reset(): void {
-    this.widgets = [{}, {}, {}];
+    this.widgets = [];
   }
 }

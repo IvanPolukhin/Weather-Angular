@@ -33,3 +33,12 @@ export interface ICoordinates {
 export interface IPosition {
   coords: ICoordinates;
 }
+
+export interface IWidgetData {
+  city: string;
+  icon: string;
+  temperature: number;
+  condition: string;
+  minTemperature: number;
+  maxTemperature: number;
+}

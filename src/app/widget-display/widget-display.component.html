@@ -1,13 +1,6 @@
-<div class="widget-container">
-    <!-- Цикл для отображения всех виджетов -->
-    <div *ngFor="let widget of widgets" class="widget">
-        <!-- Здесь будет содержимое виджета -->
-    </div>
-
-    <!-- Кнопки для управления виджетами -->
-    <div class="widget-controls">
-        <button (click)="removeLast()">Remove Last</button>
-        <button (click)="reset()">Reset</button>
-        <button (click)="addWidget()">Add Widget</button>
-    </div>
+<div class="widget-controls">
+    <input type="text" [(ngModel)]="cityName" placeholder="Enter city name">
+    <button (click)="removeLast()">Remove Last</button>
+    <button (click)="reset()">Reset</button>
+    <button (click)="addWidget()">Add Widget</button>
 </div>

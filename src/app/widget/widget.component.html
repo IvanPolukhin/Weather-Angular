@@ -1,0 +1,11 @@
+<div>
+  <input type="text" [(ngModel)]="cityName" placeholder="Enter city name">
+  <button (click)="searchCityWeather()">Search</button>
+</div>
+
+<div *ngIf="weatherData">
+  <h2>{{ weatherData.city }}</h2>
+  <p>Temperature: {{ weatherData.temperature }} °C</p>
+  <p>Condition: {{ weatherData.condition }}</p>
+  <!-- Другие данные о погоде -->
+</div>
