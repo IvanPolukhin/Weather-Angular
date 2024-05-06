@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WidgetApiService } from '../widget-api.service';
-import { IWidgetData } from '../weather.model';
-import { WidgetComponent } from '../widget/widget.component';
 import { FormsModule } from '@angular/forms';
+import { WidgetComponent } from '../widget/widget.component';
+import { IWidgetData } from '../weather.model';
+import { WidgetApiService } from '../widget-api.service';
+import { WidgetMappingService } from '../widget-mapping.service';
 
 @Component({
   selector: 'app-widget-display',
@@ -16,19 +17,30 @@ export class WidgetDisplayComponent {
   widgets: IWidgetData[] = [];
   cityName: string = '';
 
-  constructor(private widgetApiService: WidgetApiService) { }
+  constructor(private widgetMappingService: WidgetMappingService) { }
+
+  ngOnInit(): void {
+    this.widgetMappingService.getWidgets().subscribe(widgets => {
+      this.widgets = widgets;
+    });
+  }
 
   addWidget(): void {
-    this.widgetApiService.getWeatherByCityName(this.cityName).subscribe((data: IWidgetData) => {
-      this.widgets.push(data);
+    this.widgetMappingService.addWidget({
+      city: this.cityName,
+      temperature: 0,
+      condition: '',
+      icon: '',
+      minTemperature: 0,
+      maxTemperature: 0
     });
   }
 
   removeLast(): void {
-    this.widgets.pop();
+    this.widgetMappingService.removeLastWidget();
   }
 
   reset(): void {
-    this.widgets = [];
+    this.widgetMappingService.resetWidgets();
   }
 }

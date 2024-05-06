@@ -1,6 +1,14 @@
-<div class="widget-controls">
-    <input type="text" [(ngModel)]="cityName" placeholder="Enter city name">
-    <button (click)="removeLast()">Remove Last</button>
-    <button (click)="reset()">Reset</button>
-    <button (click)="addWidget()">Add Widget</button>
+<div class="container">
+    <!-- Виджеты -->
+    <div class="widgets">
+        <app-widget></app-widget>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="widget-controls">
+        <input type="text" [(ngModel)]="cityName" placeholder="Enter city name">
+        <button (click)="removeLast()">Remove Last</button>
+        <button (click)="reset()">Reset</button>
+        <button (click)="addWidget()">Add Widget</button>
+    </div>
 </div>
