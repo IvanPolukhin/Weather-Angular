@@ -1,14 +1,19 @@
-<div class="container">
-    <!-- Виджеты -->
-    <div class="widgets">
-        <app-widget></app-widget>
-    </div>
+<mat-form-field class="search-field">
+    <input type="text" placeholder="Search City" aria-label="Search City" matInput [formControl]="myControl"
+        [matAutocomplete]="auto">
+    <button mat-button (click)="getWeather(myControl.value)">Get Weather</button>
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
 
-    <!-- Кнопки -->
-    <!-- <div class="widget-controls">
-        <input type="text" [(ngModel)]="cityName" placeholder="Enter city name">
-        <button (click)="removeLast()">Remove Last</button>
-        <button (click)="reset()">Reset</button>
-        <button (click)="addWidget()">Add Widget</button>
-    </div> -->
+<div class="widget-container">
+    <div *ngFor="let widget of widgets" class="widget">
+        <app-widget [weatherData]="widget"></app-widget>
+        <button mat-icon-button class="close-button" (click)="closeWidget(widgets.indexOf(widget))">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
 </div>

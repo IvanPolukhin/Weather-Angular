@@ -1,16 +1,7 @@
 <div class="widget">
-  <input type="text" matInput [formControl]="cityName" placeholder="Enter city name" class="widget-input"
-    [matAutocomplete]="auto">
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-    <mat-option *ngFor="let city of filteredCities" [value]="city">
-      {{ city }}
-    </mat-option>
-  </mat-autocomplete>
-  <button (click)="searchCityWeather()" class="widget-button">Get Weather</button>
-</div>
-
-<div *ngIf="weatherData" class="widget-info">
-  <h2>{{ weatherData.name }}</h2>
-  <p>Temperature: {{ weatherData.main?.temp }} °C</p>
-  <p>Condition: {{ weatherData.weather[0]?.description }}</p>
+    <h2>{{ weatherData.cityName }}</h2>
+    <p>Temperature: {{ weatherData.temperature }}°C</p>
+    <p>Weather Condition: {{ weatherData.weatherCondition }}</p>
+    <p>Max Temperature: {{ weatherData.maxTemperature }}°C</p>
+    <p>Min Temperature: {{ weatherData.minTemperature }}°C</p>
 </div>

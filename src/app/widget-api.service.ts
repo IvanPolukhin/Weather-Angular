@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from './environment';
 import { API_CONFIG } from './api.config';
+import { IWidget } from './weather.model';
+import { IOpenWeatherMapResponse } from './weather.model';
+import { environment } from './environment';
+import { WidgetMappingService } from './widget-mapping.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +15,16 @@ export class WidgetApiService {
   private apiKey = environment.openWeatherMapApiKey;
   private baseUrl = API_CONFIG.openWeatherMapBaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private widgetMappingService: WidgetMappingService
+  ) { }
 
-  getCities(cityName: string): Observable<string[]> {
-    const apiUrl = 'http://api.geonames.org/searchJSON';
-    const params = new HttpParams()
-      .set('name_startsWith', cityName)
-      .set('maxRows', '10')
-      .set('username', 'p1m228');
+  getWeatherForWidget(city: string): Observable<IWidget> {
+    const url = `${this.baseUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
+    return this.http.get<any>(url).pipe(
+      map((data: IOpenWeatherMapResponse) => this.widgetMappingService.mapWeatherDataToWidget(data))
 
-    return this.http.get(apiUrl, { params }).pipe(
-      map((response: any) => {
-        return response.geonames.map((city: any) => city.name);
-      })
     );
-  }
-  getWeatherByCityName(cityName: string): Observable<any> {
-    const apiUrl = `${this.baseUrl}/weather`;
-    const params = new HttpParams()
-      .set('q', cityName)
-      .set('appid', this.apiKey)
-      .set('units', 'metric');
-    return this.http.get(apiUrl, { params });
   }
 }

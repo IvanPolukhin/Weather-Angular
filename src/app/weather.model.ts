@@ -34,11 +34,23 @@ export interface IPosition {
   coords: ICoordinates;
 }
 
-export interface IWidgetData {
-  city: string;
-  icon: string;
+export interface IWidget {
+  cityName: string;
   temperature: number;
-  condition: string;
-  minTemperature: number;
+  weatherCondition: string;
   maxTemperature: number;
+  minTemperature: number;
+}
+
+export interface IOpenWeatherMapResponse {
+  name: string;
+  main: {
+    temp: number;
+    temp_max: number;
+    temp_min: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+  }[];
 }
