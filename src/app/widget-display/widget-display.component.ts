@@ -26,12 +26,18 @@ export class WidgetDisplayComponent {
   filteredOptions: Observable<string[]>;
   cities: string[] = [];
 
+  currentIndex = 0;
+  showPrevButton = false;
+  showNextButton = false;
+
   constructor(private widgetApiService: WidgetApiService) {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+
+    this.updateButtonVisibility();
   }
 
   _filter(value: string): string[] {
@@ -42,10 +48,35 @@ export class WidgetDisplayComponent {
   getWeather(city: string) {
     this.widgetApiService.getWeatherForWidget(city).subscribe((widgetData: IWidget) => {
       this.widgets.push(widgetData);
+      this.updateButtonVisibility();
     });
   }
 
   closeWidget(index: number) {
     this.widgets.splice(index, 1);
+    this.updateButtonVisibility();
+  }
+
+  nextWidget() {
+    if (this.currentIndex === this.widgets.length - 1) {
+      this.currentIndex = 0;
+    } else {
+      this.currentIndex++;
+    }
+    this.updateButtonVisibility();
+  }
+
+  prevWidget() {
+    if (this.currentIndex === 0) {
+      this.currentIndex = this.widgets.length - 1;
+    } else {
+      this.currentIndex--;
+    }
+    this.updateButtonVisibility();
+  }
+
+  updateButtonVisibility(): void {
+    this.showPrevButton = this.widgets.length > 3;
+    this.showNextButton = this.widgets.length > 3;
   }
 }

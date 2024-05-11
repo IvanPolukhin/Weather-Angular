@@ -9,11 +9,24 @@
     </mat-autocomplete>
 </mat-form-field>
 
-<div class="widget-container">
-    <div *ngFor="let widget of widgets" class="widget">
-        <app-widget [weatherData]="widget"></app-widget>
-        <button mat-icon-button class="close-button" (click)="closeWidget(widgets.indexOf(widget))">
-            <mat-icon>close</mat-icon>
+<div class="widget-slider">
+    <div class="slider">
+        <div *ngFor="let widget of widgets.slice(currentIndex, currentIndex + 3)" class="widget">
+            <app-widget [weatherData]="widget"></app-widget>
+            <button mat-icon-button class="close-button" (click)="closeWidget(widgets.indexOf(widget))">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="slider-controls">
+        <button mat-icon-button class="prev-button" *ngIf="showPrevButton" (click)="prevWidget()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+
+        <button mat-icon-button class="next-button" *ngIf="showNextButton" (click)="nextWidget()">
+            <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
     </div>
+
 </div>
