@@ -40,24 +40,24 @@ export class WidgetDisplayComponent {
     this.updateButtonVisibility();
   }
 
-  _filter(value: string): string[] {
+  private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.cities.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  getWeather(city: string) {
+  getWeather(city: string): void {
     this.widgetApiService.getWeatherForWidget(city).subscribe((widgetData: IWidget) => {
       this.widgets.push(widgetData);
       this.updateButtonVisibility();
     });
   }
 
-  closeWidget(index: number) {
+  closeWidget(index: number): void {
     this.widgets.splice(index, 1);
     this.updateButtonVisibility();
   }
 
-  nextWidget() {
+  nextWidget(): void {
     if (this.currentIndex === this.widgets.length - 1) {
       this.currentIndex = 0;
     } else {
@@ -66,7 +66,7 @@ export class WidgetDisplayComponent {
     this.updateButtonVisibility();
   }
 
-  prevWidget() {
+  prevWidget(): void {
     if (this.currentIndex === 0) {
       this.currentIndex = this.widgets.length - 1;
     } else {

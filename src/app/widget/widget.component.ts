@@ -14,7 +14,7 @@ export class WidgetComponent {
 
   constructor(private widgetApiService: WidgetApiService) { }
 
-  refreshWeather() {
+  refreshWeather(): void {
     this.widgetApiService.getWeatherForWidget(this.weatherData.cityName)
       .subscribe((widgetData: IWidget) => {
         this.weatherData = widgetData;
