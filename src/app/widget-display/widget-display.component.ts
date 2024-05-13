@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { WidgetComponent } from '../widget/widget.component';
 import { IWidget } from '../weather.model';
@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+
 @Component({
   selector: 'app-widget-display',
   standalone: true,
@@ -20,7 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './widget-display.component.html',
   styleUrl: './widget-display.component.css'
 })
-export class WidgetDisplayComponent {
+export class WidgetDisplayComponent implements OnDestroy {
   myControl = new FormControl();
   widgets: IWidget[] = [];
   filteredOptions: Observable<string[]>;
@@ -29,6 +30,8 @@ export class WidgetDisplayComponent {
   currentIndex = 0;
   showPrevButton = false;
   showNextButton = false;
+
+  weatherSubscription: Subscription | undefined;
 
   constructor(private widgetApiService: WidgetApiService) {
     this.filteredOptions = this.myControl.valueChanges
@@ -40,13 +43,13 @@ export class WidgetDisplayComponent {
     this.updateButtonVisibility();
   }
 
-  private _filter(value: string): string[] {
+  _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.cities.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   getWeather(city: string): void {
-    this.widgetApiService.getWeatherForWidget(city).subscribe((widgetData: IWidget) => {
+    this.weatherSubscription = this.widgetApiService.getWeatherForWidget(city).subscribe((widgetData: IWidget) => {
       this.widgets.push(widgetData);
       this.updateButtonVisibility();
     });
@@ -78,5 +81,11 @@ export class WidgetDisplayComponent {
   updateButtonVisibility(): void {
     this.showPrevButton = this.widgets.length > 3;
     this.showNextButton = this.widgets.length > 3;
+  }
+
+  ngOnDestroy(): void {
+    if (this.weatherSubscription) {
+      this.weatherSubscription.unsubscribe();
+    }
   }
 }
