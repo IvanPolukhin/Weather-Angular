@@ -28,8 +28,7 @@ export class WidgetDisplayComponent implements OnDestroy {
   cities: string[] = [];
 
   currentIndex = 0;
-  showPrevButton = false;
-  showNextButton = false;
+  showButtons = false;
 
   weatherSubscription: Subscription | undefined;
 
@@ -79,8 +78,7 @@ export class WidgetDisplayComponent implements OnDestroy {
   }
 
   updateButtonVisibility(): void {
-    this.showPrevButton = this.widgets.length > 3;
-    this.showNextButton = this.widgets.length > 3;
+    this.showButtons = this.widgets.length > 3;
   }
 
   ngOnDestroy(): void {

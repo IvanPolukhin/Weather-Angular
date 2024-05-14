@@ -20,11 +20,11 @@
     </div>
 
     <div class="slider-controls">
-        <button mat-icon-button class="prev-button" *ngIf="showPrevButton" (click)="prevWidget()">
+        <button mat-icon-button class="prev-button" *ngIf="showButtons" (click)="prevWidget()">
             <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
 
-        <button mat-icon-button class="next-button" *ngIf="showNextButton" (click)="nextWidget()">
+        <button mat-icon-button class="next-button" *ngIf="showButtons" (click)="nextWidget()">
             <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
     </div>

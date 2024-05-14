@@ -22,9 +22,8 @@ export class WidgetApiService {
 
   getWeatherForWidget(city: string): Observable<IWidget> {
     const url = `${this.baseUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
-    return this.http.get<any>(url).pipe(
+    return this.http.get<IOpenWeatherMapResponse>(url).pipe(
       map((data: IOpenWeatherMapResponse) => this.widgetMappingService.mapWeatherDataToWidget(data))
-
     );
   }
 }
