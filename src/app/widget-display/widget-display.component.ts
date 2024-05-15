@@ -12,8 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-widget-display',
   standalone: true,
@@ -27,8 +25,8 @@ export class WidgetDisplayComponent implements OnDestroy {
   filteredOptions: Observable<string[]>;
   cities: string[] = [];
 
-  currentIndex = 0;
-  showButtons = false;
+  currentIndex: number = 0;
+  showButtons: boolean = false;
 
   weatherSubscription: Subscription | undefined;
 
