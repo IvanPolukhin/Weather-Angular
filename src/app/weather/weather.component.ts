@@ -11,6 +11,8 @@ import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
 import { Subscription, Observable, Observer } from 'rxjs';
 
+import { BackgroundGradientFactory } from '../background-gradient-factory';
+
 @Component({
   selector: 'app-weather',
   standalone: true,
@@ -52,7 +54,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
       if ('geolocation' in navigator) {
         this.getCurrentPosition(observer);
       } else {
-        observer.error('Geolocation is not supported or permission is denied.');
+        observer.error('Геолокация не поддерживается или доступ запрещен.');
       }
     }).subscribe((position) => {
       this.handlePosition(position);
@@ -92,18 +94,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
     console.log(this.currentWeather);
 
     const currentTime = new Date().getHours();
-    if (currentTime >= 6 && currentTime < 12) {
-      this.backgroundGradient = 'linear-gradient(to bottom, #FFD700, #87CEEB)'; // Morning background
-    } else if (currentTime >= 12 && currentTime < 18) {
-      this.backgroundGradient = 'linear-gradient(to bottom, #87CEEB, #00FF7F)'; // Afternoon background
-    } else if (currentTime >= 18 && currentTime < 24) {
-      this.backgroundGradient = 'linear-gradient(to bottom, #FFA500, #FF4500)'; // Evening background
-    } else {
-      this.backgroundGradient = 'linear-gradient(to bottom, #191970, #000000)'; // Night background
-    }
+    const timeOfDay = BackgroundGradientFactory.getTimeOfDay(currentTime);
+    this.backgroundGradient = BackgroundGradientFactory.getBackgroundGradient(timeOfDay);
   }
 
   handleError(error: any): void {
-    console.error('Error getting current position:', error);
+    console.error('Ошибка при получении текущей позиции:', error);
   }
 }
