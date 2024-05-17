@@ -11,7 +11,7 @@ import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
 import { Subscription, Observable, Observer } from 'rxjs';
 
-import { BackgroundGradientFactory } from '../background-gradient-factory';
+import { BackgroundGradientService } from '../background-gradient-factory.service';
 
 @Component({
   selector: 'app-weather',
@@ -34,6 +34,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   constructor(
     private weatherApiService: WeatherApiService,
     private weatherMappingService: WeatherMappingService,
+    private backgroundGradientService: BackgroundGradientService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -94,8 +95,8 @@ export class WeatherComponent implements OnInit, OnDestroy {
     console.log(this.currentWeather);
 
     const currentTime = new Date().getHours();
-    const timeOfDay = BackgroundGradientFactory.getTimeOfDay(currentTime);
-    this.backgroundGradient = BackgroundGradientFactory.getBackgroundGradient(timeOfDay);
+    const timeOfDay = this.backgroundGradientService.getTimeOfDay(currentTime);
+    this.backgroundGradient = this.backgroundGradientService.getBackgroundClass(timeOfDay);
   }
 
   handleError(error: any): void {

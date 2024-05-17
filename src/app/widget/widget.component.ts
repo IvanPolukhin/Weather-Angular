@@ -17,7 +17,7 @@ export class WidgetComponent implements OnDestroy {
   constructor(private widgetApiService: WidgetApiService) { }
 
   refreshWeather(): void {
-    this.widgetApiService.getWeatherForWidget(this.weatherData.cityName)
+    this.weatherSubscription = this.widgetApiService.getWeatherForWidget(this.weatherData.cityName)
       .subscribe((widgetData: IWidget) => {
         this.weatherData = widgetData;
       });

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -19,10 +19,10 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './widget-display.component.html',
   styleUrl: './widget-display.component.css'
 })
-export class WidgetDisplayComponent implements OnDestroy {
+export class WidgetDisplayComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   widgets: IWidget[] = [];
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<string[]> = new Observable<string[]>();
   cities: string[] = [];
 
   currentIndex: number = 0;
@@ -30,19 +30,21 @@ export class WidgetDisplayComponent implements OnDestroy {
 
   weatherSubscription: Subscription | undefined;
 
-  constructor(private widgetApiService: WidgetApiService) {
+  constructor(private widgetApiService: WidgetApiService) { }
+
+  ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
-
     this.updateButtonVisibility();
   }
 
-  _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.cities.filter(option => option.toLowerCase().includes(filterValue));
+  ngOnDestroy(): void {
+    if (this.weatherSubscription) {
+      this.weatherSubscription.unsubscribe();
+    }
   }
 
   getWeather(city: string): void {
@@ -79,9 +81,8 @@ export class WidgetDisplayComponent implements OnDestroy {
     this.showButtons = this.widgets.length > 3;
   }
 
-  ngOnDestroy(): void {
-    if (this.weatherSubscription) {
-      this.weatherSubscription.unsubscribe();
-    }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.cities.filter(option => option.toLowerCase().includes(filterValue));
   }
 }

@@ -77,3 +77,20 @@ span {
     border-top: 1px solid #fff;
     margin: 20px auto 0;
 }
+
+.morning-background {
+    background: linear-gradient(to bottom, #FFD700, #87CEEB);
+  }
+  
+  .afternoon-background {
+    background: linear-gradient(to bottom, #87CEEB, #00FF7F);
+  }
+  
+  .evening-background {
+    background: linear-gradient(to bottom, #FFA500, #FF4500);
+  }
+  
+  .night-background {
+    background: linear-gradient(to bottom, #191970, #000000);
+  }
+  

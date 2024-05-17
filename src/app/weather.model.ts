@@ -40,6 +40,7 @@ export interface IWidget {
   weatherCondition: string;
   maxTemperature: number;
   minTemperature: number;
+  description: string;
 }
 
 export interface IOpenWeatherMapResponse {
@@ -49,8 +50,10 @@ export interface IOpenWeatherMapResponse {
     temp_max: number;
     temp_min: number;
   };
-  weather: {
-    main: string;
-    description: string;
-  }[];
+  weather: IWeatherItem[];
+}
+
+export interface IWeatherItem {
+  main: string;
+  description: string;
 }

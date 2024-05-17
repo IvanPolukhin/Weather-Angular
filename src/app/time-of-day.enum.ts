@@ -3,4 +3,4 @@ export enum TimeOfDay {
     Afternoon,
     Evening,
     Night
-}
+  }
