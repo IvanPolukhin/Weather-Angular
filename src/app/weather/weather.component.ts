@@ -1,5 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { IWeatherModel } from '../weather.model';
@@ -10,11 +11,12 @@ import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
 import { Subscription, Observable, Observer } from 'rxjs';
 
+import { BackgroundGradientService } from '../background-gradient-factory.service';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css'
 })
@@ -27,10 +29,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
     weatherCondition: ''
   };
   geolocationSubscription: Subscription | undefined;
+  backgroundGradient: string = '';
 
   constructor(
     private weatherApiService: WeatherApiService,
     private weatherMappingService: WeatherMappingService,
+    private backgroundGradientService: BackgroundGradientService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -51,7 +55,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
       if ('geolocation' in navigator) {
         this.getCurrentPosition(observer);
       } else {
-        observer.error('Geolocation is not supported or permission is denied.');
+        observer.error('Геолокация не поддерживается или доступ запрещен.');
       }
     }).subscribe((position) => {
       this.handlePosition(position);
@@ -89,9 +93,13 @@ export class WeatherComponent implements OnInit, OnDestroy {
   updateCurrentWeather(data: IWeatherData): void {
     this.currentWeather = this.weatherMappingService.mapWeatherData(data);
     console.log(this.currentWeather);
+
+    const currentTime = new Date().getHours();
+    const timeOfDay = this.backgroundGradientService.getTimeOfDay(currentTime);
+    this.backgroundGradient = this.backgroundGradientService.getBackgroundClass(timeOfDay);
   }
 
   handleError(error: any): void {
-    console.error('Error getting current position:', error);
+    console.error('Ошибка при получении текущей позиции:', error);
   }
 }

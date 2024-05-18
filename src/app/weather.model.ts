@@ -33,3 +33,29 @@ export interface ICoordinates {
 export interface IPosition {
   coords: ICoordinates;
 }
+
+export interface IWidget {
+  cityName: string;
+  temperature: number;
+  weatherCondition: string;
+  maxTemperature: number;
+  minTemperature: number;
+  description: string;
+}
+
+export interface IOpenWeatherMapResponse {
+  name: string;
+  main: IMain;
+  weather: IWeatherItem[];
+}
+
+export interface IMain {
+  temp: number;
+  temp_max: number;
+  temp_min: number;
+}
+
+export interface IWeatherItem {
+  main: string;
+  description: string;
+}
