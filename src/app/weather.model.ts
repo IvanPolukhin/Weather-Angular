@@ -45,12 +45,14 @@ export interface IWidget {
 
 export interface IOpenWeatherMapResponse {
   name: string;
-  main: {
-    temp: number;
-    temp_max: number;
-    temp_min: number;
-  };
+  main: IMain;
   weather: IWeatherItem[];
+}
+
+export interface IMain {
+  temp: number;
+  temp_max: number;
+  temp_min: number;
 }
 
 export interface IWeatherItem {

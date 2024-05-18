@@ -7,8 +7,6 @@ import { IWeatherModel } from './weather.model';
 })
 export class WeatherMappingService {
 
-  constructor() { }
-
   mapWeatherData(data: IWeatherData): IWeatherModel {
     return {
       city: data.name,

@@ -6,8 +6,6 @@ import { IWidget, IOpenWeatherMapResponse } from './weather.model';
 })
 export class WidgetMappingService {
 
-  constructor() { }
-
   mapWeatherDataToWidget(data: IOpenWeatherMapResponse): IWidget {
     return {
       cityName: data.name,
