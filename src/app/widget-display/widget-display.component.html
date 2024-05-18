@@ -1,6 +1,6 @@
 <mat-form-field class="search-field">
     <input type="text" placeholder="Search City" aria-label="Search City" matInput [formControl]="myControl"
-        [matAutocomplete]="auto">
+        [matAutocomplete]="auto" (keydown.enter)="getWeatherOnEnter()">
     <button mat-button (click)="getWeather(myControl.value)">Get Weather</button>
     <mat-autocomplete #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {

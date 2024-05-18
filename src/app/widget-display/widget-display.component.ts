@@ -54,6 +54,13 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
     });
   }
 
+  getWeatherOnEnter(): void {
+    const city = this.myControl.value;
+    if (city) {
+      this.getWeather(city)
+    }
+  }
+
   closeWidget(index: number): void {
     this.widgets.splice(index, 1);
     this.updateButtonVisibility();
