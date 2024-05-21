@@ -9,7 +9,7 @@ import { IPosition } from '../weather.model';
 
 import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
-import { Subscription, Observable, Observer } from 'rxjs';
+import { Subscription, Observable, Observer, switchMap, interval } from 'rxjs';
 
 import { BackgroundGradientService } from '../background-gradient-factory.service';
 
@@ -29,6 +29,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     weatherCondition: ''
   };
   geolocationSubscription: Subscription | undefined;
+  weatherUpdateSubscription: Subscription | undefined;
   backgroundGradient: string = '';
 
   constructor(
@@ -48,6 +49,9 @@ export class WeatherComponent implements OnInit, OnDestroy {
     if (this.geolocationSubscription) {
       this.geolocationSubscription.unsubscribe();
     }
+    if (this.weatherUpdateSubscription) {
+      this.weatherUpdateSubscription.unsubscribe();
+    } 
   }
 
   getGeolocation(): Subscription {
@@ -55,13 +59,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
       if ('geolocation' in navigator) {
         this.getCurrentPosition(observer);
       } else {
-        observer.error('Геолокация не поддерживается или доступ запрещен.');
+        observer.error('Geolocation is not supported or access is denied.');
       }
-    }).subscribe((position) => {
-      this.handlePosition(position);
-    }, (error) => {
-      this.handleError(error);
-    });
+    }).subscribe(
+      (position) => this.handlePosition(position),
+      (error: any) => this.handleError(error)
+    );
   }
 
   getCurrentPosition(observer: Observer<IPosition>): void {
@@ -70,7 +73,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
         observer.next(position);
         observer.complete();
       },
-      (error) => {
+      (error: any) => {
         observer.error(error);
       }
     );
@@ -80,19 +83,23 @@ export class WeatherComponent implements OnInit, OnDestroy {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     this.fetchWeather(lat, lon);
+    this.weatherUpdateSubscription = interval(10000).pipe(
+      switchMap(() => this.weatherApiService.getCurrentWeather(lat, lon))
+    ).subscribe(
+      (data: IWeatherData) => this.updateCurrentWeather(data),
+      (error: any) => this.handleError(error)
+    );
   }
 
   fetchWeather(lat: number, lon: number): void {
     this.weatherApiService.getCurrentWeather(lat, lon).subscribe(
-      (data: IWeatherData) => {
-        this.updateCurrentWeather(data);
-      }
+      (data: IWeatherData) => this.updateCurrentWeather(data),
+      (error: any) => this.handleError(error)
     );
   }
 
   updateCurrentWeather(data: IWeatherData): void {
     this.currentWeather = this.weatherMappingService.mapWeatherData(data);
-    console.log(this.currentWeather);
 
     const currentTime = new Date().getHours();
     const timeOfDay = this.backgroundGradientService.getTimeOfDay(currentTime);
@@ -100,6 +107,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   handleError(error: any): void {
-    console.error('Ошибка при получении текущей позиции:', error);
+    console.error('Error when receiving the current position:', error);
   }
 }

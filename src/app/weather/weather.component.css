@@ -80,17 +80,16 @@ span {
 
 .morning-background {
     background: linear-gradient(to bottom, #FFD700, #87CEEB);
-  }
-  
-  .afternoon-background {
+}
+
+.afternoon-background {
     background: linear-gradient(to bottom, #87CEEB, #00FF7F);
-  }
-  
-  .evening-background {
+}
+
+.evening-background {
     background: linear-gradient(to bottom, #FFA500, #FF4500);
-  }
-  
-  .night-background {
+}
+
+.night-background {
     background: linear-gradient(to bottom, #191970, #000000);
-  }
-  
+}
