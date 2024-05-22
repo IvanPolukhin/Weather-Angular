@@ -9,20 +9,28 @@ import { Observable, of } from 'rxjs';
 export class WidgetStorageService {
   private localStorageKey = 'savedWidgets';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
-  saveWidget(widget: IWidget): Observable<void> {
+  saveWidgets(widgets: IWidget[]): Observable<void> {
     if (isPlatformBrowser(this.platformId)) {
-      let savedWidgets: IWidget[] = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
-      savedWidgets.push(widget);
-      localStorage.setItem(this.localStorageKey, JSON.stringify(savedWidgets));
+      try {
+        localStorage.setItem(this.localStorageKey, JSON.stringify(widgets));
+      } catch (error) {
+        console.error('Error saving widgets to localStorage', error);
+      }
     }
     return of(undefined);
   }
 
   loadAllWidgets(): Observable<IWidget[]> {
     if (isPlatformBrowser(this.platformId)) {
-      return of(JSON.parse(localStorage.getItem(this.localStorageKey) || '[]'));
+      try {
+        const widgets = JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
+        return of(widgets);
+      } catch (error) {
+        console.error('Error loading widgets from localStorage', error);
+        return of([]);
+      }
     } else {
       return of([]);
     }

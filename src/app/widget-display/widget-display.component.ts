@@ -1,16 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { WidgetComponent } from '../widget/widget.component';
 import { IWidget } from '../weather.model';
+import { WidgetComponent } from '../widget/widget.component';
 import { WidgetApiService } from '../widget-api.service';
-import { CommonModule } from '@angular/common';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { WidgetStorageService } from '../widget-storage.service';
+
+
+
 
 @Component({
   selector: 'app-widget-display',
@@ -30,15 +34,22 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
 
   weatherSubscription: Subscription | undefined;
 
-  constructor(private widgetApiService: WidgetApiService) { }
+  constructor(
+    private widgetApiService: WidgetApiService,
+    private widgetStorageService: WidgetStorageService
+  ) { }
 
   ngOnInit(): void {
+    this.widgetStorageService.loadAllWidgets().subscribe((widgets: IWidget[]) => {
+      this.widgets = widgets;
+      this.updateButtonVisibility();
+    });
+
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
-    this.updateButtonVisibility();
   }
 
   ngOnDestroy(): void {
@@ -51,6 +62,7 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
     this.weatherSubscription = this.widgetApiService.getWeatherForWidget(city).subscribe((widgetData: IWidget) => {
       this.widgets.push(widgetData);
       this.updateButtonVisibility();
+      this.saveWidgets();
     });
   }
 
@@ -64,6 +76,7 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
   closeWidget(index: number): void {
     this.widgets.splice(index, 1);
     this.updateButtonVisibility();
+    this.saveWidgets();
   }
 
   nextWidget(): void {
@@ -91,5 +104,9 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.cities.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  private saveWidgets(): void {
+    this.widgetStorageService.saveWidgets(this.widgets).subscribe();
   }
 }

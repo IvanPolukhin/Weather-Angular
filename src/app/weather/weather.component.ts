@@ -2,16 +2,15 @@ import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { IWeatherModel } from '../weather.model';
 import { IWeatherData } from '../weather.model';
 import { IPosition } from '../weather.model';
-
 import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
+import { BackgroundGradientService } from '../background-gradient-factory.service';
 import { Subscription, Observable, Observer, switchMap, interval } from 'rxjs';
 
-import { BackgroundGradientService } from '../background-gradient-factory.service';
+
 
 @Component({
   selector: 'app-weather',
@@ -110,6 +109,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   handleError(error: any): void {
-    console.error('Произошла ошибка при получении текущего местоположения:', error);
+    console.error('An error occurred while receiving the current location:', error);
   }
 }
