@@ -32,6 +32,8 @@ export class WeatherComponent implements OnInit, OnDestroy {
   weatherUpdateSubscription: Subscription | undefined;
   backgroundGradient: string = '';
 
+  private readonly weatherInterval: number = 10000;
+
   constructor(
     private weatherApiService: WeatherApiService,
     private weatherMappingService: WeatherMappingService,
@@ -51,7 +53,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     }
     if (this.weatherUpdateSubscription) {
       this.weatherUpdateSubscription.unsubscribe();
-    } 
+    }
   }
 
   getGeolocation(): Subscription {
@@ -83,9 +85,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     this.fetchWeather(lat, lon);
-    this.weatherUpdateSubscription = interval(10000).pipe(
+    this.weatherUpdateSubscription = interval(this.weatherInterval).pipe(
       switchMap(() => this.weatherApiService.getCurrentWeather(lat, lon))
     ).subscribe(
+
       (data: IWeatherData) => this.updateCurrentWeather(data),
       (error: any) => this.handleError(error)
     );
@@ -107,6 +110,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   handleError(error: any): void {
-    console.error('Error when receiving the current position:', error);
+    console.error('Произошла ошибка при получении текущего местоположения:', error);
   }
 }
