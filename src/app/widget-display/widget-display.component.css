@@ -9,28 +9,49 @@
     justify-content: center;
     flex-wrap: wrap;
     overflow-x: hidden;
+    position: relative;
+    margin-top: -20px;
 }
 
 .widget-slider .slider {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .widget-slider .widget {
-    flex: 0 0 auto;
-    width: calc(100% / 3);
+    flex: 0 1 260px;
+    margin: 30px;
+    box-sizing: border-box;
 }
 
 .slider-controls {
     position: absolute;
-    top: 35%;
+    top: 45%;
     transform: translateY(-50%);
     display: flex;
     justify-content: space-between;
-    width: 50%;
-  }
+    width: 1050px;
+    pointer-events: none;
+}
 
 .slider-controls button {
-    margin: 0 10px;
+    pointer-events: all;
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.slider-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .slider-controls .prev-button {
@@ -39,10 +60,6 @@
 
 .slider-controls .next-button {
     right: 0;
-}
-
-.widget {
-    margin: 10px;
 }
 
 .close-button {
