@@ -1,7 +1,9 @@
 <div class="widget">
     <h2 class="cityName">{{ weatherData.cityName }}</h2>
-    <p class="temperature"> {{ weatherData.temperature }}°C</p>
-    <p class="weatherCondition">{{ weatherData.weatherCondition }}</p>
+    <img [src]="'http://openweathermap.org/img/wn/' + weatherData.iconCode + '@2x.png'"
+        alt="{{ weatherData.weatherCondition }}" class="weather-icon">
+    <p class="temperature">{{ weatherData.temperature }}°C</p>
+    <p class="description">{{ weatherData.description }}</p>
     <div class="temperature-row">
         <div class="temperature-column">
             <div class="arrow">▼</div>
@@ -14,4 +16,5 @@
             <div class="label">Max</div>
         </div>
     </div>
+
 </div>

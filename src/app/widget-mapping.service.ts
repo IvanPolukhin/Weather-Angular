@@ -13,7 +13,8 @@ export class WidgetMappingService {
       weatherCondition: data.weather[0].main,
       maxTemperature: Math.round(data.main.temp_max),
       minTemperature: Math.round(data.main.temp_min),
-      description: data.weather[0].description
+      description: data.weather[0].description,
+      iconCode: data.weather[0].icon
     };
   }
 }

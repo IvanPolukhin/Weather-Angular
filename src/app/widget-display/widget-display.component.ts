@@ -13,9 +13,6 @@ import { WidgetComponent } from '../widget/widget.component';
 import { WidgetApiService } from '../widget-api.service';
 import { WidgetStorageService } from '../widget-storage.service';
 
-
-
-
 @Component({
   selector: 'app-widget-display',
   standalone: true,

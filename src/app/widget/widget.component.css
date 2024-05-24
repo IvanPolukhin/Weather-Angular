@@ -18,17 +18,15 @@
 }
 
 .temperature {
-    margin-top: 125px;
     font-size: 42px;
 }
 
-.weatherCondition {
+.description {
     margin-top: 10px;
     font-size: 22px;
 }
 
 .widget .temperature-row {
-    margin-top: 50px;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -68,4 +66,11 @@
 
 .temperature-column:last-child .label {
     color: red;
+}
+
+.weather-icon {
+    width: 180px;
+    height: 180px;
+    display: block;
+    margin: 0 auto;
 }
