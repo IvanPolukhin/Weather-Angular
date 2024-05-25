@@ -4,6 +4,20 @@
     margin-bottom: 20px;
 }
 
+.get-weather-button {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.get-weather-button:hover {
+    background-color: #e03e00;
+}
+
 .widget-slider {
     display: flex;
     justify-content: center;
@@ -24,6 +38,7 @@
     flex: 0 1 260px;
     margin: 30px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .slider-controls {
@@ -66,4 +81,18 @@
     position: absolute;
     top: 10px;
     right: 10px;
+    padding: 4px 6px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.close-button mat-icon {
+    color: rgba(0, 0, 0, 0.54);
 }

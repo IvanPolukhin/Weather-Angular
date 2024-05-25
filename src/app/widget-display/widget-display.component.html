@@ -1,32 +1,26 @@
 <mat-form-field class="search-field">
     <input type="text" placeholder="Search City" aria-label="Search City" matInput [formControl]="myControl"
         [matAutocomplete]="auto" (keydown.enter)="getWeatherOnEnter()">
-    <button mat-button (click)="getWeather(myControl.value)">Get Weather</button>
+    <button mat-button class="get-weather-button" (click)="getWeather(myControl.value)">Get Weather</button>
     <mat-autocomplete #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-        <mat-option [value]="option">{{ option }}</mat-option>
-        }
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option }}</mat-option>
     </mat-autocomplete>
 </mat-form-field>
 <div class="widget-slider">
     <div class="slider">
-        @for (widget of widgets.slice(currentIndex, currentIndex + 3); track widget) {
-        <div class="widget">
+        <div *ngFor="let widget of widgets.slice(currentIndex, currentIndex + 3)" class="widget">
             <app-widget [weatherData]="widget"></app-widget>
             <button mat-icon-button class="close-button" (click)="closeWidget(widgets.indexOf(widget))">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
-        }
     </div>
     <div class="slider-controls">
-        @if (showButtons) {
-        <button mat-icon-button class="prev-button" (click)="prevWidget()">
+        <button *ngIf="showButtons" mat-icon-button class="prev-button" (click)="prevWidget()">
             <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
-        <button mat-icon-button class="next-button" (click)="nextWidget()">
+        <button *ngIf="showButtons" mat-icon-button class="next-button" (click)="nextWidget()">
             <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
-        }
     </div>
 </div>
