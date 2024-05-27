@@ -12,13 +12,14 @@ import { IWidget } from '../weather.model';
 import { WidgetComponent } from '../widget/widget.component';
 import { WidgetApiService } from '../widget-api.service';
 import { WidgetStorageService } from '../widget-storage.service';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-widget-display',
   standalone: true,
   imports: [WidgetComponent, CommonModule, MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './widget-display.component.html',
-  styleUrl: './widget-display.component.css'
+  styleUrl: './widget-display.component.scss'
 })
 export class WidgetDisplayComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
@@ -33,7 +34,8 @@ export class WidgetDisplayComponent implements OnInit, OnDestroy {
 
   constructor(
     private widgetApiService: WidgetApiService,
-    private widgetStorageService: WidgetStorageService
+    private widgetStorageService: WidgetStorageService,
+    public themeService: ThemeService,
   ) { }
 
   ngOnInit(): void {

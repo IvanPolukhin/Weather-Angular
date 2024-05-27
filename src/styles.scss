@@ -1,0 +1,104 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.dark-theme {
+  background-color: #303030;
+  color: #ffffff;
+
+  .mat-drawer-container {
+    background: #303030;
+    color: #ffffff;
+  }
+
+  .mat-toolbar {
+    background: #303030;
+    color: #ffffff;
+  }
+
+  .mat-drawer {
+    background: #303030;
+    color: #ffffff;
+  }
+
+  .mat-nav-list {
+    background: #303030;
+    color: #ffffff;
+  }
+
+  .mat-list-item {
+    background: #303030;
+    color: #ffffff;
+  }
+
+  .widget {
+    background-color: #303030;
+    color: #ffffff;
+  }
+
+  .mat-button,
+  .mat-icon-button {
+    color: #ffffff !important;
+  }
+
+  .mat-autocomplete-panel {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .mat-autocomplete-panel .mat-option-text {
+    color: #ffffff;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: #303030;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) input::placeholder {
+    color: #ffffff;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) input {
+    color: #ffffff;
+  }
+
+  .search-field.mat-form-field {
+    background-color: #303030;
+    color: #ffffff;
+
+    ::placeholder {
+      color: #ffffff;
+    }
+  }
+
+  .menuIcon,
+  .buttonTheme,
+  .cityName,
+  .temperature,
+  .description,
+  p,
+  .close-button,
+  .prev-button,
+  .next-button {
+    color: #ffffff !important;
+  }
+
+  .logo,
+  .theme-label {
+    color: #ffffff;
+  }
+}
+
+.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-list-item {
+  color: inherit;
+}

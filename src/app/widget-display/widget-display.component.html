@@ -1,26 +1,27 @@
-<mat-form-field class="search-field">
+<mat-form-field class="search-field" [ngClass]="{ 'dark-theme': themeService.darkTheme }">
     <input type="text" placeholder="Search City" aria-label="Search City" matInput [formControl]="myControl"
-        [matAutocomplete]="auto" (keydown.enter)="getWeatherOnEnter()">
+         (keydown.enter)="getWeatherOnEnter()">
     <button mat-button class="get-weather-button" (click)="getWeather(myControl.value)">Get Weather</button>
-    <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{ option }}</mat-option>
-    </mat-autocomplete>
 </mat-form-field>
-<div class="widget-slider">
+<div class="widget-slider" [ngClass]="{ 'dark-theme': themeService.darkTheme }">
     <div class="slider">
-        <div *ngFor="let widget of widgets.slice(currentIndex, currentIndex + 3)" class="widget">
+        @for (widget of widgets.slice(currentIndex, currentIndex + 3); track widget) {
+        <div class="widget">
             <app-widget [weatherData]="widget"></app-widget>
             <button mat-icon-button class="close-button" (click)="closeWidget(widgets.indexOf(widget))">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
+        }
     </div>
     <div class="slider-controls">
-        <button *ngIf="showButtons" mat-icon-button class="prev-button" (click)="prevWidget()">
+        @if (showButtons) {
+        <button mat-icon-button class="prev-button" (click)="prevWidget()">
             <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
-        <button *ngIf="showButtons" mat-icon-button class="next-button" (click)="nextWidget()">
+        <button mat-icon-button class="next-button" (click)="nextWidget()">
             <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
+        }
     </div>
 </div>

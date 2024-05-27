@@ -17,7 +17,7 @@ import { Subscription, Observable, Observer, switchMap, interval } from 'rxjs';
   standalone: true,
   imports: [HttpClientModule, CommonModule],
   templateUrl: './weather.component.html',
-  styleUrl: './weather.component.css'
+  styleUrl: './weather.component.scss'
 })
 export class WeatherComponent implements OnInit, OnDestroy {
   currentWeather: IWeatherModel = {

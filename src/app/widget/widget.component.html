@@ -1,7 +1,6 @@
-<div class="widget">
+<div class="widget" [ngClass]="{ 'dark-theme': isDarkTheme, 'light-theme': !isDarkTheme }">
     <h2 class="cityName">{{ weatherData.cityName }}</h2>
-    <img [src]="'http://openweathermap.org/img/wn/' + weatherData.iconCode + '@2x.png'"
-        alt="{{ weatherData.weatherCondition }}" class="weather-icon">
+    <img [src]="'http://openweathermap.org/img/wn/' + weatherData.iconCode + '@2x.png'" alt="{{ weatherData.weatherCondition }}" class="weather-icon">
     <p class="temperature">{{ weatherData.temperature }}°C</p>
     <p class="description">{{ weatherData.description }}</p>
     <div class="temperature-row">
@@ -16,5 +15,4 @@
             <div class="label">Max</div>
         </div>
     </div>
-
 </div>

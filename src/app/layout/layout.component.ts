@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,15 +11,26 @@ import { MatListModule } from '@angular/material/list';
 import { MatDrawer } from '@angular/material/sidenav';
 import { WeatherComponent } from '../weather/weather.component';
 import { RouterModule } from '@angular/router';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [MatSlideToggleModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatBadgeModule, MatButtonModule, MatMenuModule,  WeatherComponent, RouterModule],
+  imports: [CommonModule, MatSlideToggleModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatBadgeModule, MatButtonModule, MatMenuModule, WeatherComponent, RouterModule],
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css']
+  styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
   @ViewChild('drawer') sidenav!: MatDrawer;
-  constructor() { }
+
+  constructor(public themeService: ThemeService) { }
+
+  toggleTheme(isDarkTheme: boolean): void {
+    this.themeService.darkTheme = isDarkTheme;
+    if (isDarkTheme) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }
 }
