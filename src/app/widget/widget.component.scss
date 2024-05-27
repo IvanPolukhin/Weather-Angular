@@ -1,0 +1,89 @@
+.widget {
+    width: 260px;
+    height: 400px;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+
+    .cityName {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+
+    .temperature {
+        font-size: 42px;
+    }
+
+    .description {
+        margin-top: 10px;
+        font-size: 22px;
+    }
+
+    .temperature-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .temperature-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 40px;
+
+            .arrow {
+                font-size: 14px;
+            }
+
+            p {
+                font-size: 20px;
+                margin: 3px 0;
+            }
+
+            .label {
+                font-size: 16px;
+            }
+
+            &:first-child {
+                .arrow {
+                    color: green;
+                }
+
+                .label {
+                    color: green;
+                }
+            }
+
+            &:last-child {
+                .arrow {
+                    color: red;
+                }
+
+                .label {
+                    color: red;
+                }
+            }
+        }
+    }
+
+    .weather-icon {
+        width: 180px;
+        height: 180px;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.dark-theme .widget {
+    background-color: #303030; /* Цвет фона для темной темы */
+    color: #ffffff; /* Цвет текста для темной темы */
+}
+  
+.light-theme .widget {
+    background-color: #ffffff; /* Цвет фона для светлой темы */
+    color: #000000; /* Цвет текста для светлой темы */
+}

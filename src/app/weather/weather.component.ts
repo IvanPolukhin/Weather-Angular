@@ -2,23 +2,22 @@ import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { IWeatherModel } from '../weather.model';
 import { IWeatherData } from '../weather.model';
 import { IPosition } from '../weather.model';
-
 import { WeatherMappingService } from '../weather-mapping.service';
 import { WeatherApiService } from '../weather-api.service';
-import { Subscription, Observable, Observer } from 'rxjs';
-
 import { BackgroundGradientService } from '../background-gradient-factory.service';
+import { Subscription, Observable, Observer, switchMap, interval } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-weather',
   standalone: true,
   imports: [HttpClientModule, CommonModule],
   templateUrl: './weather.component.html',
-  styleUrl: './weather.component.css'
+  styleUrl: './weather.component.scss'
 })
 export class WeatherComponent implements OnInit, OnDestroy {
   currentWeather: IWeatherModel = {
@@ -29,7 +28,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
     weatherCondition: ''
   };
   geolocationSubscription: Subscription | undefined;
+  weatherUpdateSubscription: Subscription | undefined;
   backgroundGradient: string = '';
+
+  private readonly weatherInterval: number = 10000;
 
   constructor(
     private weatherApiService: WeatherApiService,
@@ -48,6 +50,9 @@ export class WeatherComponent implements OnInit, OnDestroy {
     if (this.geolocationSubscription) {
       this.geolocationSubscription.unsubscribe();
     }
+    if (this.weatherUpdateSubscription) {
+      this.weatherUpdateSubscription.unsubscribe();
+    }
   }
 
   getGeolocation(): Subscription {
@@ -55,13 +60,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
       if ('geolocation' in navigator) {
         this.getCurrentPosition(observer);
       } else {
-        observer.error('Геолокация не поддерживается или доступ запрещен.');
+        observer.error('Geolocation is not supported or access is denied.');
       }
-    }).subscribe((position) => {
-      this.handlePosition(position);
-    }, (error) => {
-      this.handleError(error);
-    });
+    }).subscribe(
+      (position) => this.handlePosition(position),
+      (error: any) => this.handleError(error)
+    );
   }
 
   getCurrentPosition(observer: Observer<IPosition>): void {
@@ -70,7 +74,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
         observer.next(position);
         observer.complete();
       },
-      (error) => {
+      (error: any) => {
         observer.error(error);
       }
     );
@@ -80,19 +84,24 @@ export class WeatherComponent implements OnInit, OnDestroy {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     this.fetchWeather(lat, lon);
+    this.weatherUpdateSubscription = interval(this.weatherInterval).pipe(
+      switchMap(() => this.weatherApiService.getCurrentWeather(lat, lon))
+    ).subscribe(
+
+      (data: IWeatherData) => this.updateCurrentWeather(data),
+      (error: any) => this.handleError(error)
+    );
   }
 
   fetchWeather(lat: number, lon: number): void {
     this.weatherApiService.getCurrentWeather(lat, lon).subscribe(
-      (data: IWeatherData) => {
-        this.updateCurrentWeather(data);
-      }
+      (data: IWeatherData) => this.updateCurrentWeather(data),
+      (error: any) => this.handleError(error)
     );
   }
 
   updateCurrentWeather(data: IWeatherData): void {
     this.currentWeather = this.weatherMappingService.mapWeatherData(data);
-    console.log(this.currentWeather);
 
     const currentTime = new Date().getHours();
     const timeOfDay = this.backgroundGradientService.getTimeOfDay(currentTime);
@@ -100,6 +109,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   handleError(error: any): void {
-    console.error('Ошибка при получении текущей позиции:', error);
+    console.error('An error occurred while receiving the current location:', error);
   }
 }

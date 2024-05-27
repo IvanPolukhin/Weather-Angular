@@ -8,7 +8,7 @@ import { WidgetDisplayComponent } from './widget-display/widget-display.componen
   standalone: true,
   imports: [RouterOutlet, LayoutComponent, WidgetDisplayComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
